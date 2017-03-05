@@ -1,5 +1,5 @@
 # Short demo
-<img src="https://raw.github.com/thanhniencung/ImageBrowser/master/demo.gif)" width="480" height="640" alt="Demo"/>
+![Demo Image](https://raw.github.com/thanhniencung/ImageBrowser/master/screenshots/demo.gif)
 
 # STEP 1: When user click on the item of the RecycleView 
 ```java
