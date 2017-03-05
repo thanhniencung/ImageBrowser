@@ -5,6 +5,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.os.Build;
 import android.os.Bundle;
@@ -54,7 +55,6 @@ public class PhotoFragment extends Fragment implements View.OnTouchListener {
     private boolean enableAnimation;
 
     private ImageView.ScaleType scaleType;
-    private List<ImageInfo> imageInfoList;
 
     private int thumbnailWidth;
     private int thumbnailHeight;
@@ -90,7 +90,6 @@ public class PhotoFragment extends Fragment implements View.OnTouchListener {
         thumbnailLeft = getArguments().getInt(THUMBNAIL_LEFT);
         photoUrl = getArguments().getString(PHOTO_URL);
         position = getArguments().getInt(POSITION);
-        imageInfoList = getArguments().getParcelableArrayList(ARRAY_THUMBNAIL);
         scaleType = (ImageView.ScaleType) getArguments().getSerializable(THUMBNAIL_SCALE_TYPE);
     }
 
@@ -108,11 +107,10 @@ public class PhotoFragment extends Fragment implements View.OnTouchListener {
 
         if (!enableAnimation) {
             imageView.setVisibility(View.VISIBLE);
+            Picasso.with(getActivity())
+                    .load(photoUrl)
+                    .into(imageView);
         }
-
-        Picasso.with(getActivity())
-                .load(photoUrl)
-                .into(imageView);
 
         initTempImageView();
 
@@ -135,12 +133,29 @@ public class PhotoFragment extends Fragment implements View.OnTouchListener {
                     toHeight = imageView.getHeight();
 
                     if (enableAnimation) {
-                        runEnterAnimation();
+                        prepareData();
                     }
                     return false;
                 }
             });
         }
+    }
+
+    private void prepareData() {
+        new AsyncTaskLover(getActivity(), new AsyncTaskLover.BitmapListener() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap) {
+                imageView.setImageBitmap(bitmap);
+                transitionImage.setImageBitmap(bitmap);
+
+                runEnterAnimation();
+            }
+
+            @Override
+            public void onError() {
+                finish();
+            }
+        }).execute(photoUrl);
     }
 
     private void runEnterAnimation() {
@@ -152,7 +167,6 @@ public class PhotoFragment extends Fragment implements View.OnTouchListener {
         mEnteringAnimation.setDuration(AnimationConfig.DURATION);
         mEnteringAnimation.setInterpolator(new DecelerateInterpolator());
         mEnteringAnimation.addListener(new PhotoAnimationListener() {
-
             @Override
             public void onAnimationEnd(Animator animation) {
                 imageView.setVisibility(View.VISIBLE);
@@ -209,10 +223,6 @@ public class PhotoFragment extends Fragment implements View.OnTouchListener {
         frameLayout.addView(transitionImage);
 
         transitionImage.setScaleType(scaleType);
-
-        Picasso.with(getActivity())
-                .load(photoUrl)
-                .into(transitionImage);
 
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) transitionImage.getLayoutParams();
         layoutParams.height = thumbnailHeight;

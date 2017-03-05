@@ -34,7 +34,6 @@ public class ImageDialogFragment extends DialogFragment {
     private PhotoAdapter photoAdapter;
     private FrameLayout frameLayout;
 
-    private List<ImageInfo> imageInfoList;
     private int thumbnailTop;
     private int thumbnailLeft;
     private int thumbnailWidth;
@@ -59,7 +58,6 @@ public class ImageDialogFragment extends DialogFragment {
             thumbnailHeight = bundle.getInt(PACKAGE + ".height");
             scaleType = (ImageView.ScaleType) bundle.getSerializable(PACKAGE + ".scale_type");
             currentImagePos = bundle.getInt(PACKAGE + ".current");
-            imageInfoList = bundle.getParcelableArrayList(PACKAGE + ".arr_location");
         }
     }
 
@@ -74,11 +72,6 @@ public class ImageDialogFragment extends DialogFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         frameLayout = (FrameLayout) view.findViewById(R.id.dialog_image_browser_container);
         background = new ColorDrawable(Color.BLACK);
-        if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            frameLayout.setBackgroundDrawable(background);
-        } else {
-            frameLayout.setBackground(background);
-        }
 
         mViewpager = (ViewPager) view.findViewById(R.id.dialog_image_browser_viewpager);
         mViewpager.addOnPageChangeListener(new MyOnPageChangeListener() {
@@ -98,6 +91,11 @@ public class ImageDialogFragment extends DialogFragment {
     }
 
     public void enterBlackBg() {
+        if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            frameLayout.setBackgroundDrawable(background);
+        } else {
+            frameLayout.setBackground(background);
+        }
         ObjectAnimator bgAnim = ObjectAnimator.ofInt(background, "alpha", 25, 255);
         bgAnim.setDuration(AnimationConfig.DURATION);
         bgAnim.start();
@@ -126,7 +124,6 @@ public class ImageDialogFragment extends DialogFragment {
             bundle.putInt(PhotoFragment.THUMBNAIL_HEIGHT, thumbnailHeight);
             bundle.putInt(PhotoFragment.THUMBNAIL_TOP, thumbnailTop);
             bundle.putInt(PhotoFragment.THUMBNAIL_LEFT, thumbnailLeft);
-            bundle.putParcelableArrayList(PhotoFragment.ARRAY_THUMBNAIL, (ArrayList<? extends Parcelable>) imageInfoList);
             bundle.putSerializable(PhotoFragment.THUMBNAIL_SCALE_TYPE, scaleType);
             bundle.putString(PhotoFragment.PHOTO_URL,imageList.get(position));
 
