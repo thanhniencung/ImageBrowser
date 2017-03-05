@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_photo_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <view
+        class="com.kiennguyen.imagebrowser.ShadowLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/activity_simple_photo_viewer_shadowLayout"
+        android:visibility="visible" >
+        <ImageView
+            android:id="@+id/fragment_photo_image"
+            android:visibility="invisible"
+            android:adjustViewBounds="true"
+            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </view>
+</FrameLayout>
