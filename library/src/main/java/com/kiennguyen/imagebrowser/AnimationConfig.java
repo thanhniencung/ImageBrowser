@@ -5,6 +5,6 @@ package com.kiennguyen.imagebrowser;
  */
 
 public class AnimationConfig {
-    public static final int SPEED = 10;
+    public static final int SPEED = 1;
     public static final int DURATION = 300 * SPEED;
 }

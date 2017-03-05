@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 gridLayoutManager.scrollToPosition(photoChange.position);
             }
-        }, 100);
+        }, 250);
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -117,6 +117,6 @@ public class MainActivity extends AppCompatActivity {
 
                 EventBus.getDefault().post(photoLocation);
             }
-        }, 300);
+        }, 500);
     }
 }
