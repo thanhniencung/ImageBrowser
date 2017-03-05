@@ -1,5 +1,5 @@
 # Short demo
-![Demo Image](https://raw.github.com/thanhniencung/ImageBrowser/master/screenshots/demo.gif)
+<h1><a href="https://youtu.be/SnP-DoaCOjs">Youtube Video</a></h1>
 
 # STEP 1: When user click on the item of the RecycleView 
 ```java
