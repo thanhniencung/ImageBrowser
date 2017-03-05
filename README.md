@@ -4,6 +4,7 @@
 # STEP 1: When user click on the item of the RecycleView 
 ```java
 ImageDialogFragment.showImages(context.getSupportFragmentManager(), getAdapterPosition(), imageView, imageList);
+```
 
 # STEP 2: Handle RecycleView every onPageSelected called
 ```java
@@ -56,3 +57,4 @@ public void onPhotoChange(final PhotoChange photoChange) {
         }
     }, 500);
 }
+```
